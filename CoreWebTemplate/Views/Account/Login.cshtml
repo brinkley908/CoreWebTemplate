@@ -1,0 +1,41 @@
+﻿@model CoreWebTemplate.Models.Account.LoginModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<br />
+
+<form asp-controller="Account" asp-action="Login" method="post" id="login-form">
+
+    @Html.AntiForgeryToken()
+
+
+    <div class="login-container text-muted">
+
+        <h2>Sign into Weland Yutani Corp</h2>
+
+        <i class="fab fa-facebook-square social"></i>  <i class="fab fa-google-plus-square social"></i> <i class="fab fa-linkedin social"></i>
+
+        <br />
+        <span>or use your email account</span>
+
+        <div class="login-form">
+
+
+            @Html.XTextBox( "Username", Model.Username, "text", Model.UsernameConfig )
+
+            <br />
+
+            @Html.XTextBox( "Password", Model.Password, "password", Model.PasswordConfig )
+
+            <br />
+
+            <button class="button button-default">Login</button>
+
+        </div>
+
+    </div>
+
+</form>
+
