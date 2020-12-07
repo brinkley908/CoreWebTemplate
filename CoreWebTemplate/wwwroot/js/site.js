@@ -75,8 +75,7 @@ function setMenuCss(actionValue) {
 
 
                 $("#home-img").addClass("home-img-shrink");
-                header.addClass("sticky");
-                header.addClass("box-shadow");
+                header.addClass("sticky box-shadow");
 
                 if (settings.onSticky)
                    settings.onSticky();
@@ -84,8 +83,7 @@ function setMenuCss(actionValue) {
             }
             else {
 
-                header.removeClass("box-shadow");
-                header.removeClass("sticky");
+                header.removeClass("box-shadow sticky");
                 $("#home-img").removeClass("home-img-shrink");
                 if (settings.onScrollTop)
                     settings.onScrollTop()

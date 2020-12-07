@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
-using CoreWebTemplate.Service.SeedData;
 using CoreWebTemplate.Service.SessionSorageService;
 using CoreWebTemplate.Service;
 
@@ -21,15 +20,15 @@ namespace CoreWebTemplate.Controllers
 
         private readonly IHtmlHelper _helper;
 
-        private readonly ISeedData _seedData;
-
         private ISessionStorageService _session;
 
-        public AccountController( IHtmlHelper helper, ISeedData seedData, ISessionStorageService sessionStorageService )
+        private readonly ISignInService _signInService;
+
+        public AccountController( IHtmlHelper helper, ISignInService signInService, ISessionStorageService sessionStorageService )
         {
             _helper = helper;
-            _seedData = seedData;
             _session = sessionStorageService;
+            _signInService = signInService;
         }
 
         public async Task<IActionResult> Login()
@@ -66,29 +65,22 @@ namespace CoreWebTemplate.Controllers
 
         public async Task<bool> CheckLogin( LoginModel model )
         {
-            var signInUser = new SignInUser
-            {
-                UserManager = _seedData.UserManager,
-                UserRoleManager = _seedData.UserRoleManager,
-                SignInManager = _seedData.SignInManager,
-                IdentityOptions = _seedData.IdentityOptions
-            };
+            //var signInUser = new SignInUser
+            //{
+            //    UserManager = _seedData.UserManager,
+            //    UserRoleManager = _seedData.UserRoleManager,
+            //    SignInManager = _seedData.SignInManager,
+            //    IdentityOptions = _seedData.IdentityOptions
+            //};
 
-            await _seedData.AddTestUsers();
+            //await _seedData.AddTestUsers();
 
-            return await signInUser.SignInAsync( model ); 
+            return await _signInService.SignInAsync( model ); 
         }
 
         [Authorize]
         public async Task<IActionResult> Logout()
         {
-            var signInUser = new SignInUser
-            {
-                UserManager = _seedData.UserManager,
-                UserRoleManager = _seedData.UserRoleManager,
-                SignInManager = _seedData.SignInManager,
-                IdentityOptions = _seedData.IdentityOptions
-            };
 
             _session.LoadSession( HttpContext );
 
@@ -96,7 +88,7 @@ namespace CoreWebTemplate.Controllers
 
             _session.Clear();
 
-            await signInUser.SignOutAsync();
+            await _signInService.SignOutAsync();
 
             return RedirectToAction( "Login" );
         }

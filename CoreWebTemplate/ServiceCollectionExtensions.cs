@@ -13,7 +13,6 @@ using CoreWebTemplate.Service.SessionSorageService;
 using CoreWebTemplate.Models.AspNetUsers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using CoreWebTemplate.Service.SeedData;
 using CoreWebTemplate.Repository;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -83,9 +82,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     .AddScoped( typeof( IDBRepository<> ), typeof( DBRepository<> ) )
                     .AddScoped<IPostsRepository, PostsRepistory>()
-
-                    .AddScoped<IBlogService, BlogService>()
-                    .AddScoped<ISeedData, SeedData>();
+                    .AddScoped<ISignInService, SignInService>()
+                    .AddScoped<IBlogService, BlogService>();
         //.AddScoped<IHtmlHelperFactory, HtmlHelperFactory>();
 
 
